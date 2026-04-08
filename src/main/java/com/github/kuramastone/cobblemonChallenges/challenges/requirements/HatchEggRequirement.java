@@ -107,7 +107,7 @@ public class HatchEggRequirement implements Requirement {
             String ballName = event.getPokemon().getCaughtBall().toString();
             long time_of_day = event.getPlayer().level().getDayTime();
             boolean is_paradox = pokemon.hasLabels(CobblemonPokemonLabels.PARADOX);
-            boolean is_legendary = pokemon.isLegendary();
+            boolean is_legendary = pokemon.isLegendary() || pokemon.isMythical();
             boolean is_ultra_beast = pokemon.isUltraBeast();
             boolean is_mythical = pokemon.isMythical();
 

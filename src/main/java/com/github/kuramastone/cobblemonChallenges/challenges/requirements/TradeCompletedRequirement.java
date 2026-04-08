@@ -103,7 +103,7 @@ public class TradeCompletedRequirement implements Requirement {
             List<ElementalType> types = StreamSupport.stream(pokemon.getTypes().spliterator(), false).collect(Collectors.toUnmodifiableList());
             String ballName = event.getTradeParticipant1Pokemon().getCaughtBall().getName().toString();
             long time_of_day = event.getTradeParticipant1Pokemon().getOwnerPlayer().level().getDayTime();
-            boolean is_legendary = pokemon.isLegendary();
+            boolean is_legendary = pokemon.isLegendary() || pokemon.isMythical();
             boolean is_ultra_beast = pokemon.isUltraBeast();
             boolean is_mythical = pokemon.isMythical();
 
