@@ -8,7 +8,14 @@ import com.github.kuramastone.cobblemonChallenges.events.BlockBreakEvent;
 import com.github.kuramastone.cobblemonChallenges.player.PlayerProfile;
 import com.github.kuramastone.cobblemonChallenges.scoreboard.ChallengeScoreboard;
 import com.github.kuramastone.cobblemonChallenges.utils.StringUtils;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 
 import java.util.UUID;
 
@@ -19,6 +26,9 @@ public class MineBlockRequirement implements Requirement {
     public String blockType = "any";
     @YamlKey("amount")
     private int amount = 1;
+
+    @YamlKey("preventSilkTouch")
+    public boolean preventSilkTouch = true;
 
     public MineBlockRequirement() {
     }
@@ -82,6 +92,27 @@ public class MineBlockRequirement implements Requirement {
 
             if (!StringUtils.doesStringContainCategory(requirement.blockType.split("/"), itemName)) {
                 return false;
+            }
+
+            // --- NEW: 1.21+ Silk Touch Prevention Check ---
+            if (requirement.preventSilkTouch && event.getPlayer() != null) {
+                ItemStack heldItem = event.getPlayer().getMainHandItem();
+
+                // 1. Get the enchantment registry from the player's world level
+                Registry<Enchantment> enchantmentRegistry =
+                        event.getPlayer().level().registryAccess().registryOrThrow(Registries.ENCHANTMENT);
+
+                // 2. Get the Holder for Silk Touch using the ResourceKey
+                Holder<Enchantment> silkTouchHolder =
+                        enchantmentRegistry.getHolderOrThrow(Enchantments.SILK_TOUCH);
+
+                // 3. Check the item's level using the Holder
+                int silkTouchLevel = EnchantmentHelper.getItemEnchantmentLevel(
+                        silkTouchHolder,
+                        heldItem
+                );
+
+                return silkTouchLevel <= 0; // Do not count the block break if Silk Touch was used
             }
 
             return true;
