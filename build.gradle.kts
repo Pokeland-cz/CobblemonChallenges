@@ -94,7 +94,7 @@ dependencies {
     includeAndImplement("net.kyori:adventure-key:4.17.0")
     includeAndImplement("net.kyori:adventure-text-serializer-plain:4.14.0")
 
-    modImplementation("com.cobblemon:fabric:1.8.0+1.21.1")
+    modImplementation("com.cobblemon:fabric:1.8.2+1.21.1")
 
     compileOnly("net.luckperms:api:5.4")
 
