@@ -1,6 +1,5 @@
 # Java
 *.class
-*.jar
 *.war
 *.ear
 *.iml
@@ -17,12 +16,10 @@ gradle-app.setting
 .idea/
 *.iws
 *.ipr
-*.iml
 *.hprof
 
 # Eclipse
 .metadata/
-*.tmp
 *.bak
 *.swp
 *~.nib
